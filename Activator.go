@@ -1,6 +1,6 @@
 package Drago
 
 type Activator interface {
-	Apply(float64) float64
-	Derivative(float64) float64
+	Apply(int, int, float64) float64
+	Derivative(int, int, float64) float64
 }
