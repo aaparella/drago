@@ -1,10 +1,6 @@
 package Drago
 
-import (
-	"fmt"
-
-	"github.com/gonum/matrix/mat64"
-)
+import "github.com/gonum/matrix/mat64"
 
 type Network struct {
 	Activators   []Activator
@@ -12,6 +8,7 @@ type Network struct {
 	Weights      []*mat64.Dense
 	LearningRate float64
 	Iterations   int
+	Err          Error
 }
 
 func New(learnRate float64, iterations int, topology []int, acts []Activator) *Network {
@@ -21,6 +18,7 @@ func New(learnRate float64, iterations int, topology []int, acts []Activator) *N
 		Activators:   make([]Activator, len(topology)),
 		Activations:  make([]*mat64.Dense, len(topology)),
 		Weights:      make([]*mat64.Dense, len(topology)-1),
+		Err:          MSE,
 	}
 
 	net.initActivations(topology)
@@ -64,10 +62,8 @@ func (n *Network) Forward(sample []float64) {
 			n.Activations[i+1].Apply(n.Activators[i+1].Apply, n.Activations[i+1])
 		}
 	}
-
-	fmt.Println(n.Activations[len(n.Activations)-1])
 }
 
 func (n *Network) Back(label []float64) {
-
+	// TODO
 }
