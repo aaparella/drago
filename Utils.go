@@ -1,6 +1,7 @@
 package Drago
 
 import (
+	"math"
 	"math/rand"
 	"time"
 
@@ -22,4 +23,17 @@ func RandomMatrix(r, c int) *mat64.Dense {
 		data[i] = rand.Float64()
 	}
 	return mat64.NewDense(r, c, data)
+}
+
+func Normalize(input []float64) []float64 {
+	total := 0.0
+	for _, val := range input {
+		total += val * val
+	}
+	total = math.Sqrt(total)
+	res := make([]float64, len(input))
+	for i, val := range input {
+		res[i] = val / total
+	}
+	return res
 }
