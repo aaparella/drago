@@ -5,6 +5,8 @@ import "math"
 type ReLU struct {
 }
 
+var _ Activator = new(ReLU)
+
 func (u *ReLU) Apply(r, c int, val float64) float64 {
 	return math.Log(1 + math.Exp(val))
 }
