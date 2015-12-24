@@ -8,7 +8,7 @@ import (
 	"github.com/gonum/matrix/mat64"
 )
 
-func MatrixWithInitialValue(r, c int, val float64) *mat64.Dense {
+func matrixWithInitialValue(r, c int, val float64) *mat64.Dense {
 	data := make([]float64, r*c)
 	for i := range data {
 		data[i] = val
@@ -16,7 +16,7 @@ func MatrixWithInitialValue(r, c int, val float64) *mat64.Dense {
 	return mat64.NewDense(r, c, data)
 }
 
-func RandomMatrix(r, c int) *mat64.Dense {
+func randomMatrix(r, c int) *mat64.Dense {
 	rand.Seed(time.Now().UnixNano())
 	data := make([]float64, r*c)
 	for i := range data {
@@ -25,7 +25,7 @@ func RandomMatrix(r, c int) *mat64.Dense {
 	return mat64.NewDense(r, c, data)
 }
 
-func Normalize(input []float64) []float64 {
+func normalize(input []float64) []float64 {
 	total := 0.0
 	for _, val := range input {
 		total += val * val

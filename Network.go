@@ -48,9 +48,9 @@ func (n *Network) initErrors(topology []int) {
 }
 
 func (n *Network) initWeights(topology []int) {
-	n.Weights[0] = MatrixWithInitialValue(topology[1], topology[0], 1)
+	n.Weights[0] = matrixWithInitialValue(topology[1], topology[0], 1)
 	for i := 1; i < n.Layers-1; i++ {
-		n.Weights[i] = RandomMatrix(topology[i+1], topology[i])
+		n.Weights[i] = randomMatrix(topology[i+1], topology[i])
 	}
 }
 
