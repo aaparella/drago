@@ -7,6 +7,7 @@ type Network struct {
 	Activations  []*mat64.Dense
 	Weights      []*mat64.Dense
 	Errors       []*mat64.Dense
+	Topology     []int
 	Layers       int
 	LearningRate float64
 	Iterations   int
@@ -21,6 +22,7 @@ func New(learnRate float64, iterations int, topology []int, acts []Activator) *N
 		Activations:  make([]*mat64.Dense, len(topology)),
 		Errors:       make([]*mat64.Dense, len(topology)),
 		Weights:      make([]*mat64.Dense, len(topology)-1),
+		Topology:     topology,
 		Layers:       len(topology),
 		Err:          MSE,
 	}
@@ -56,6 +58,11 @@ func (n *Network) initActivators(acts []Activator) {
 	for i := 0; i < len(acts); i++ {
 		n.Activators[i+1] = acts[i]
 	}
+}
+
+func (n *Network) Predict(sample []float64) *mat64.Dense {
+	n.Forward(sample)
+	return n.Activations[n.Layers-1]
 }
 
 func (n *Network) Learn(dataset [][][]float64) {

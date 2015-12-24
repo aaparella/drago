@@ -15,8 +15,7 @@ Usage:
     })
 
     // Predict a value
-    net.Forward([]float64{1, 1})
-    fmt.Println(net.Activations[n.Layers-1])
+    fmt.Println(net.Predict([]float64{1, 1})
 
 To add an activation function: 
 ===
