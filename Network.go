@@ -37,20 +37,20 @@ func New(learnRate float64, iterations int, topology []int, acts []Activator) *N
 
 func (n *Network) initActivations(topology []int) {
 	for i, nodes := range topology {
-		n.Activations[i] = mat64.NewDense(nodes, 1, nil)
+		n.Activations[i] = mat64.NewDense(nodes+1, 1, nil)
 	}
 }
 
 func (n *Network) initErrors(topology []int) {
 	for i := 1; i < n.Layers; i++ {
-		n.Errors[i] = mat64.NewDense(topology[i], 1, nil)
+		n.Errors[i] = mat64.NewDense(topology[i]+1, 1, nil)
 	}
 }
 
 func (n *Network) initWeights(topology []int) {
-	n.Weights[0] = matrixWithInitialValue(topology[1], topology[0], 1)
+	n.Weights[0] = matrixWithInitialValue(topology[1]+1, topology[0]+1, 1)
 	for i := 1; i < n.Layers-1; i++ {
-		n.Weights[i] = randomMatrix(topology[i+1], topology[i])
+		n.Weights[i] = randomMatrix(topology[i+1]+1, topology[i]+1)
 	}
 }
 
@@ -75,6 +75,7 @@ func (n *Network) Learn(dataset [][][]float64) {
 }
 
 func (n *Network) Forward(sample []float64) {
+	sample = append([]float64{1}, sample...)
 	n.Activations[0].SetCol(0, sample)
 	for i := 0; i < len(n.Weights); i++ {
 		n.activateLayer(i)
@@ -82,6 +83,7 @@ func (n *Network) Forward(sample []float64) {
 }
 
 func (n *Network) activateLayer(layer int) {
+	n.Activations[layer].Set(0, 0, 1)
 	n.Activations[layer+1].Mul(n.Weights[layer], n.Activations[layer])
 	if layer != len(n.Weights)-1 {
 		n.Activations[layer+1].Apply(n.Activators[layer+1].Apply, n.Activations[layer+1])
@@ -94,6 +96,7 @@ func (n *Network) Back(label []float64) {
 }
 
 func (n *Network) calculateErrors(label []float64) {
+	label = append([]float64{1}, label...)
 	actual := mat64.NewDense(len(label), 1, label)
 	n.Errors[n.Layers-1].Sub(n.Activations[n.Layers-1], actual)
 	for i := n.Layers - 2; i > 0; i-- {

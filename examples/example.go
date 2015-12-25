@@ -8,7 +8,7 @@ import (
 
 func main() {
 	activations := []Drago.Activator{new(Drago.Sigmoid), new(Drago.Sigmoid)}
-	net := Drago.New(.5, 50, []int{2, 3, 3, 1}, activations)
+	net := Drago.New(.5, 100, []int{2, 3, 3, 1}, activations)
 	net.Learn([][][]float64{
 		{{0, 0}, {0}},
 		{{1, 0}, {0}},
