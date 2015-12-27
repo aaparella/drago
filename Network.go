@@ -1,3 +1,4 @@
+// Feed Forward Artifical Neural Network Library
 package Drago
 
 import "github.com/gonum/matrix/mat64"
@@ -14,6 +15,9 @@ type Network struct {
 	Err          Error
 }
 
+// Topology specifies number of hidden layers and nodes in each, as well as
+// size of samples and labels (first and last values, respectively).
+// Acts array should have one activator for each hidden layer
 func New(learnRate float64, iterations int, topology []int, acts []Activator) *Network {
 	net := &Network{
 		LearningRate: learnRate,
@@ -60,11 +64,14 @@ func (n *Network) initActivators(acts []Activator) {
 	}
 }
 
+// Sample must have number of features specified by topology
 func (n *Network) Predict(sample []float64) *mat64.Dense {
 	n.Forward(sample)
 	return n.Activations[n.Layers-1]
 }
 
+// Samples must have number of features and labels as specified by topology
+// when constructing the network
 func (n *Network) Learn(dataset [][][]float64) {
 	for i := 0; i < n.Iterations; i++ {
 		for _, sample := range dataset {
