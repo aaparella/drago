@@ -59,6 +59,7 @@ func (n *Network) initWeights(topology []int) {
 }
 
 func (n *Network) initActivators(acts []Activator) {
+	acts = append(acts, new(Linear))
 	for i := 0; i < len(acts); i++ {
 		n.Activators[i+1] = acts[i]
 	}
@@ -90,9 +91,7 @@ func (n *Network) Forward(sample []float64) {
 
 func (n *Network) activateLayer(layer int) {
 	n.Activations[layer+1].Mul(n.Weights[layer], n.Activations[layer])
-	if layer != len(n.Weights)-1 {
-		n.Activations[layer+1].Apply(n.Activators[layer+1].Apply, n.Activations[layer+1])
-	}
+	n.Activations[layer+1].Apply(n.Activators[layer+1].Apply, n.Activations[layer+1])
 }
 
 func (n *Network) Back(label []float64) {
