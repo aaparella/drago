@@ -16,7 +16,8 @@ type Network struct {
 	Layers       int
 	LearningRate float64
 	Iterations   int
-	Err          Error
+	Loss         Criterion
+	currentErr   float64
 }
 
 // Topology specifies number of hidden layers and nodes in each, as well as
@@ -32,7 +33,7 @@ func New(learnRate float64, iterations int, topology []int, acts []Activator) *N
 		Weights:      make([]*mat64.Dense, len(topology)-1),
 		Topology:     topology,
 		Layers:       len(topology),
-		Err:          MSE,
+		Loss:         new(MSE),
 	}
 
 	net.initActivations(topology)
@@ -80,10 +81,12 @@ func (n *Network) Learn(dataset [][][]float64) {
 	fmt.Println("Learning...")
 	for i := 0; i < n.Iterations; i++ {
 		fmt.Println("=== Iteration ", i+1, " ===")
+		n.currentErr = 0
 		for _, sample := range dataset {
 			n.Forward(sample[0])
 			n.Back(sample[1])
 		}
+		fmt.Println("Error : ", n.currentErr/float64(len(dataset)))
 	}
 }
 
@@ -106,7 +109,8 @@ func (n *Network) Back(label []float64) {
 
 func (n *Network) calculateErrors(label []float64) {
 	actual := mat64.NewDense(len(label), 1, label)
-	n.Errors[n.Layers-1].Sub(n.Activations[n.Layers-1], actual)
+	n.Errors[n.Layers-1] = n.Loss.Derivative(n.Activations[n.Layers-1], actual)
+	n.currentErr += n.Loss.Apply(n.Activations[n.Layers-1], actual)
 	for i := n.Layers - 2; i >= 0; i-- {
 		n.calculateErrorForLayer(i)
 	}
