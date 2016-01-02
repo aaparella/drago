@@ -1,7 +1,11 @@
 // Feed Forward Artifical Neural Network Library
 package Drago
 
-import "github.com/gonum/matrix/mat64"
+import (
+	"fmt"
+
+	"github.com/gonum/matrix/mat64"
+)
 
 type Network struct {
 	Activators   []Activator
@@ -73,7 +77,9 @@ func (n *Network) Predict(sample []float64) *mat64.Dense {
 // Samples must have number of features and labels as specified by topology
 // when constructing the network
 func (n *Network) Learn(dataset [][][]float64) {
+	fmt.Println("Learning...")
 	for i := 0; i < n.Iterations; i++ {
+		fmt.Println("=== Iteration ", i+1, " ===")
 		for _, sample := range dataset {
 			n.Forward(sample[0])
 			n.Back(sample[1])
