@@ -46,22 +46,21 @@ func (n *Network) initActivations(topology []int) {
 }
 
 func (n *Network) initErrors(topology []int) {
-	for i := 1; i < n.Layers; i++ {
+	for i := 0; i < n.Layers; i++ {
 		n.Errors[i] = mat64.NewDense(topology[i], 1, nil)
 	}
 }
 
 func (n *Network) initWeights(topology []int) {
-	n.Weights[0] = randomMatrix(topology[1], topology[0])
-	for i := 1; i < n.Layers-1; i++ {
+	for i := 0; i < n.Layers-1; i++ {
 		n.Weights[i] = randomMatrix(topology[i+1], topology[i])
 	}
 }
 
 func (n *Network) initActivators(acts []Activator) {
-	acts = append(acts, new(Linear))
+	acts = append([]Activator{new(Linear)}, append(acts, new(Linear))...)
 	for i := 0; i < len(acts); i++ {
-		n.Activators[i+1] = acts[i]
+		n.Activators[i] = acts[i]
 	}
 }
 
@@ -102,7 +101,7 @@ func (n *Network) Back(label []float64) {
 func (n *Network) calculateErrors(label []float64) {
 	actual := mat64.NewDense(len(label), 1, label)
 	n.Errors[n.Layers-1].Sub(n.Activations[n.Layers-1], actual)
-	for i := n.Layers - 2; i > 0; i-- {
+	for i := n.Layers - 2; i >= 0; i-- {
 		n.calculateErrorForLayer(i)
 	}
 }
