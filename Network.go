@@ -18,6 +18,8 @@ type Network struct {
 	Iterations   int
 	Loss         Criterion
 	currentErr   float64
+	// Controls logging output during training.
+	Verbose bool
 }
 
 // Topology specifies number of hidden layers and nodes in each, as well as
@@ -34,6 +36,7 @@ func New(learnRate float64, iterations int, topology []int, acts []Activator) *N
 		Topology:     topology,
 		Layers:       len(topology),
 		Loss:         new(MSE),
+		Verbose:      true,
 	}
 
 	net.initActivations(topology)
@@ -42,6 +45,12 @@ func New(learnRate float64, iterations int, topology []int, acts []Activator) *N
 	net.initErrors(topology)
 
 	return net
+}
+
+func (n *Network) verbosePrint(a ...interface{}) {
+	if n.Verbose {
+		fmt.Println(a...)
+	}
 }
 
 func (n *Network) initActivations(topology []int) {
@@ -78,15 +87,15 @@ func (n *Network) Predict(sample []float64) *mat64.Dense {
 // Samples must have number of features and labels as specified by topology
 // when constructing the network
 func (n *Network) Learn(dataset [][][]float64) {
-	fmt.Println("Learning...")
+	n.verbosePrint("Learning...")
 	for i := 0; i < n.Iterations; i++ {
-		fmt.Println("=== Iteration ", i+1, " ===")
+		n.verbosePrint("=== Iteration ", i+1, " ===")
 		n.currentErr = 0
 		for _, sample := range dataset {
 			n.Forward(sample[0])
 			n.Back(sample[1])
 		}
-		fmt.Println("Error : ", n.currentErr/float64(len(dataset)))
+		n.verbosePrint("Error : ", n.currentErr/float64(len(dataset)))
 	}
 }
 
