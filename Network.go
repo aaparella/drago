@@ -1,4 +1,4 @@
-// Feed Forward Artifical Neural Network Library
+// Package Drago provides implementation of feed forward neural network
 package Drago
 
 import (
@@ -7,6 +7,9 @@ import (
 	"github.com/gonum/matrix/mat64"
 )
 
+// Network struct represents the neural network
+// Values are exported but should not be messed with during training,
+// are exported simply for ease of examining the network state
 type Network struct {
 	Activators   []Activator
 	Activations  []*mat64.Dense
@@ -22,6 +25,7 @@ type Network struct {
 	Verbose bool
 }
 
+// New creates a new neural network
 // Topology specifies number of hidden layers and nodes in each, as well as
 // size of samples and labels (first and last values, respectively).
 // Acts array should have one activator for each hidden layer
@@ -78,12 +82,15 @@ func (n *Network) initActivators(acts []Activator) {
 	}
 }
 
-// Sample must have number of features specified by topology
+// Predict returns the predicted value of the provided sample
+// Dimensions must match those from provided topology
+// Only use after training the network
 func (n *Network) Predict(sample []float64) *mat64.Dense {
 	n.Forward(sample)
 	return n.Activations[n.Layers-1]
 }
 
+// Learn trains the network using the provided dataset
 // Samples must have number of features and labels as specified by topology
 // when constructing the network
 func (n *Network) Learn(dataset [][][]float64) {
@@ -99,6 +106,7 @@ func (n *Network) Learn(dataset [][][]float64) {
 	}
 }
 
+// Forward calculates activations at each layer for given sample
 func (n *Network) Forward(sample []float64) {
 	n.Activations[0].SetCol(0, sample)
 	for i := 0; i < len(n.Weights); i++ {
@@ -111,6 +119,7 @@ func (n *Network) activateLayer(layer int) {
 	n.Activations[layer+1].Apply(n.Activators[layer+1].Apply, n.Activations[layer+1])
 }
 
+// Back performs back propogation to update weights at each layer
 func (n *Network) Back(label []float64) {
 	n.calculateErrors(label)
 	n.updateWeights()

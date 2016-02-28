@@ -1,6 +1,8 @@
 Drago
 ===
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/aaparella/Drago)](https://goreportcard.com/report/github.com/aaparella/Drago)
+
 Simple feed forward neural network implementation. Still need to add some nice utility functions, the logic can stand to be cleaned up in some places, but the algorithms are implemented and it can be used.
 
 Usage:
