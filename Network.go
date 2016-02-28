@@ -119,7 +119,7 @@ func (n *Network) activateLayer(layer int) {
 	n.Activations[layer+1].Apply(n.Activators[layer+1].Apply, n.Activations[layer+1])
 }
 
-// Back performs back propogation to update weights at each layer
+// Back performs back propagation to update weights at each layer
 func (n *Network) Back(label []float64) {
 	n.calculateErrors(label)
 	n.updateWeights()
