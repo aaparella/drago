@@ -1,4 +1,4 @@
-package main
+package drago_test
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/aaparella/drago"
 )
 
-func main() {
+func ExamplePredict() {
 	activations := []drago.Activator{new(drago.Sigmoid)}
 	net := drago.New(.7, 1000, []int{2, 3, 1}, activations)
 	net.Learn([][][]float64{

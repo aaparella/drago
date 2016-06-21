@@ -1,6 +1,6 @@
 // Example borrowed from https://github.com/stevenmiller888/go-mind
 
-package main
+package drago_test
 
 import (
 	"log"
@@ -35,7 +35,7 @@ var (
 			"#######")
 )
 
-func main() {
+func ExampleLearn() {
 	m := drago.New(0.3, 10000, []int{49, 3, 1}, []drago.Activator{new(drago.Sigmoid)})
 	m.Learn([][][]float64{
 		{c, []float64{.5}},
