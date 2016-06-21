@@ -1,4 +1,4 @@
-package Drago
+package drago
 
 import (
 	"math/rand"

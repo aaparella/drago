@@ -1,4 +1,4 @@
-package Drago
+package drago
 
 // Activator represents the activation function for a given layer
 type Activator interface {

@@ -1,4 +1,4 @@
-package Drago
+package drago
 
 // Linear represents linear activation function
 type Linear struct {

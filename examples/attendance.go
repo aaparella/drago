@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 
-	"github.com/aaparella/Drago"
+	"github.com/aaparella/drago"
 )
 
 func main() {
-	net := Drago.New(.1, 1000, []int{4, 3, 1}, []Drago.Activator{new(Drago.Sigmoid)})
+	net := drago.New(.1, 1000, []int{4, 3, 1}, []drago.Activator{new(drago.Sigmoid)})
 	// Note : This data set is entirely made up, just demonstrative
 	// In each sample the features are, in order :
 	// Number of seats in theatre

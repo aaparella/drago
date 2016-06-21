@@ -5,7 +5,7 @@ package main
 import (
 	"log"
 
-	"github.com/aaparella/Drago"
+	"github.com/aaparella/drago"
 )
 
 var (
@@ -36,7 +36,7 @@ var (
 )
 
 func main() {
-	m := Drago.New(0.3, 10000, []int{49, 3, 1}, []Drago.Activator{new(Drago.Sigmoid)})
+	m := drago.New(0.3, 10000, []int{49, 3, 1}, []drago.Activator{new(drago.Sigmoid)})
 	m.Learn([][][]float64{
 		{c, []float64{.5}},
 		{b, []float64{.3}},

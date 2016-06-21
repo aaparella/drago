@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 
-	"github.com/aaparella/Drago"
+	"github.com/aaparella/drago"
 )
 
 func main() {
-	activations := []Drago.Activator{new(Drago.Sigmoid)}
-	net := Drago.New(.7, 1000, []int{2, 3, 1}, activations)
+	activations := []drago.Activator{new(drago.Sigmoid)}
+	net := drago.New(.7, 1000, []int{2, 3, 1}, activations)
 	net.Learn([][][]float64{
 		{{0, 0}, {0}},
 		{{1, 0}, {0}},

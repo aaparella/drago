@@ -1,5 +1,5 @@
 // Package Drago provides implementation of feed forward neural network
-package Drago
+package drago
 
 import (
 	"fmt"
