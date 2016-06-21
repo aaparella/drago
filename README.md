@@ -1,15 +1,15 @@
-Drago
+drago
 ===
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/aaparella/Drago)](https://goreportcard.com/report/github.com/aaparella/Drago)
+[![Go Report Card](https://goreportcard.com/badge/github.com/aaparella/drago)](https://goreportcard.com/report/github.com/aaparella/drago)
 
 Simple feed forward neural network implementation. Still need to add some nice utility functions, the logic can stand to be cleaned up in some places, but the algorithms are implemented and it can be used.
 
 Usage:
 ===
 
-    acts := Drago.Activator[]{new(Drago.Sigmoid), new(Drago.Sigmoid)}
-    net := Drago.New(0.1, 25, []int{5, 2, 2, 1}, acts)
+    acts := drago.Activator[]{new(drago.Sigmoid), new(drago.Sigmoid)}
+    net := drago.New(0.1, 25, []int{5, 2, 2, 1}, acts)
     net.Learn([][][]float64{
         {{0, 0}, {1}},
         {{0, 1}, {0}},
